@@ -54,7 +54,20 @@
                 
             request({
                 uri: url,
-                transform: (body) => body[0] === '{' ? JSON.parse(body) : cheerio.load(body)
+                // 解析结果
+                transform: (body) => {
+                    return body[0] === '{' ? JSON.parse(body) : cheerio.load(body);
+                },
+                // 加入常见请求头
+                headers: {
+                    'Accept-Encoding': 'gzip, deflate, sdch, br',
+                    'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6,fr;q=0.4,ja;q=0.2,ru;q=0.2,zh-TW;q=0.2,ko;q=0.2',
+                    'Upgrade-Insecure-Requests': '1', 
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Cache-Control': 'max-age=0',
+                    'Connection': 'keep-alive',
+                }
             })
             .then((res) => {
                 console.log('end\trequest ' + url);
@@ -130,7 +143,7 @@
             urls.forEach((url) => {
                 url = HOST_URL + url;
                 
-                // 判断是是否我们感兴趣的页面
+                // 判断是否我们感兴趣的页面
                 if (url.match(/^\/browse/)) {
                     // 把url方法待访问列表中
                     this.queue.push(url);
@@ -206,7 +219,7 @@
                 this.flush_();
             })
             .catch((err) => {
-                this._error(err);
+                this.error_(err);
             });
         }
 
