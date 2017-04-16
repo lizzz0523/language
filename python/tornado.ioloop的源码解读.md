@@ -35,4 +35,4 @@
 
 总结一下：
 
-![pic](https://github.com/lizzz0523/language/blob/master/python/io.png?raw=true)
+<img src="https://github.com/lizzz0523/language/blob/master/python/io.png?raw=true" width="479" height="99" />
