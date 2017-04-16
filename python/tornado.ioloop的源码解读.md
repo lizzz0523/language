@@ -35,4 +35,4 @@
 
 总结一下：
 
-![pic](/path/to/img.jpg)
+![pic](https://github.com/lizzz0523/language/blob/master/python/io.png?raw=true)
