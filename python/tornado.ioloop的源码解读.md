@@ -48,7 +48,7 @@
 * 信号驱动io
 * 异步io
 
-[unix网络编程](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492497158399&di=5452400ca1d3af8d5ebf90c74b8d78be&imgtype=0&src=http%3A%2F%2Fwww.cfanz.cn%2Fuploads%2Fpng%2F2015%2F12%2F16%2F19%2FX5fY963245.png)
+![unix网络编程](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492497158399&di=5452400ca1d3af8d5ebf90c74b8d78be&imgtype=0&src=http%3A%2F%2Fwww.cfanz.cn%2Fuploads%2Fpng%2F2015%2F12%2F16%2F19%2FX5fY963245.png)
 
 说了这么多，其实主要是想说明，tornado实现异步io采用的是**io多路复用**的方法，也就是通过调用系统的select，poll，epoll，kqueue来实现异步io。而tornado.ioloop.IOLoop则是对这些代理进行封装，我们可以在IOLoop类的注释中得到证实
 ```python
