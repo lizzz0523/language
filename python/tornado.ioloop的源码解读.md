@@ -65,26 +65,26 @@
 由于IOLoop类是对epoll等代理的封装，我们先看看在python中，如何使用[epoll](https://docs.python.org/2/library/select.html?highlight=select.epoll#epoll-objects)
 ```python
     """epoll对象定义
-    epoll.close()
     关闭与epoll对象相关的文件描述符
+    epoll.close()
 
-    epoll.fileno()
     返回与epoll对象相关的文件描述符
+    epoll.fileno()
 
-    epoll.fromfd(fd)
     通过给定的文件描述符来创建epoll对象
+    epoll.fromfd(fd)
 
-    epoll.register(fd[, eventmask])
     向epoll对象添加需要监听的文件，以及需要响应的事件
+    epoll.register(fd[, eventmask])
 
-    epoll.modify(fd, eventmask)
     修改已经在epoll对象注册过的文件所需响应的事件
+    epoll.modify(fd, eventmask)
 
-    epoll.unregister(fd)
     删除在epoll对象中对该文件的监听
+    epoll.unregister(fd)
 
-    epoll.poll([timeout=-1[, maxevents=-1]])
     监听文件事件，或设置timeout出发超时
+    epoll.poll([timeout=-1[, maxevents=-1]])
     """
 ```
 现在，我们应该就不会惊讶，在IOLoop类中定义的实例方法
@@ -92,21 +92,25 @@
     class IOLoop(Configurable):
         def close(self, all_fds=False):
             """Closes the `IOLoop`, freeing any resources used.
+            对epoll.close的封装
             """
             raise NotImplementedError()
 
         def add_handler(self, fd, handler, events):
             """Registers the given handler to receive the given events for ``fd``.
+            对epoll.register的封装
             """
             raise NotImplementedError()
 
         def update_handler(self, fd, events):
             """Changes the events we listen for ``fd``.
+            对epoll.modify的封装
             """
             raise NotImplementedError()
 
         def remove_handler(self, fd):
             """Stop listening for events on ``fd``.
+            对epoll.unregister的封装
             """
             raise NotImplementedError()
 ```
