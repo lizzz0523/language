@@ -13,6 +13,7 @@
 * [快速排序算法(javascript实现)](https://github.com/lizzz0523/language/blob/master/javascript/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95(javascript%E5%AE%9E%E7%8E%B0).md)
 * [堆排序算法(javascript实现)](https://github.com/lizzz0523/language/blob/master/javascript/%E5%A0%86%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95(javascript%E5%AE%9E%E7%8E%B0).md)
 * [桶排序算法(javascript实现)](https://github.com/lizzz0523/language/blob/master/javascript/%E6%A1%B6%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95(javascript%E5%AE%9E%E7%8E%B0).md)
+* [关于let声明的变量在闭包中引用](https://github.com/lizzz0523/language/blob/master/javascript/%E5%85%B3%E4%BA%8Elet%E5%A3%B0%E6%98%8E%E7%9A%84%E5%8F%98%E9%87%8F%E5%9C%A8%E9%97%AD%E5%8C%85%E4%B8%AD%E5%BC%95%E7%94%A8.md)
 
 ### python
 * [tornado的Subprocess使用例子](https://github.com/lizzz0523/language/blob/master/python/tornado%E7%9A%84Subprocess%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90.md)
