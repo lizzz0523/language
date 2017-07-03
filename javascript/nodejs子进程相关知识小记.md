@@ -1,6 +1,6 @@
-最近在开发一下cli小工具时，遇到了一些和子进程相关的问题，因此在这里记录一下和`child_process`模块相关的一些知识点，主要参考的是nodejs的[官方文档](https://nodejs.org/dist/latest-v6.x/docs/api/child_process.html)，可以理解为是官方文档的意译。
+最近在开发一个cli小工具时，遇到了一些关于创建子进程的问题，因此在这里记录一下nodejs和`child_process`模块相关的一些知识点，主要参考的是nodejs的[官方文档](https://nodejs.org/dist/latest-v6.x/docs/api/child_process.html)，可以理解为是官方文档的意译。
 
-nodejs里的`child_process`模块主要提供了与`popen`系统调用类似但不完全一样的，创建子进程的能力，通过调用`child_process`里的`spawn`方法，我们就可以在nodejs里创建子进程，并且通过相关的`stdio`来达到进程通信的目的：
+nodejs里的`child_process`模块主要提供了与`popen`系统调用类似但不完全一样的，创建子进程的能力，通过调用`child_process`里的`spawn`方法，我们就可以在nodejs里创建子进程，并且通过相关的stdio来进行进程之间的通信：
 
 ```javascript
 const spawn = require("child_process").spawn;
@@ -19,9 +19,9 @@ child.on("close", (code) => {
 });
 ```
 
-上面的例子创建运行`ls`命令的子进程，并且传入参数`-ls /usr`，这里要注意，node是创建子进程，直接运行`ls`命令，而非先运行`shell`，然后在`shell`中运行`ls`命令，前者效率更高。该行为可以通过在spawn的第三个参数中传入`{shell: true}`来重置。
+上面的例子中，我们创建了运行`ls`命令的子进程，并且传入参数`-ls /usr`，要注意的是，这里nodejs是创建子进程，直接运行`ls`命令，而非先创建`shell`进程，然后在`shell`中运行`ls`命令，前者效率更高。该行为可以通过在`spawn`方法的第三个参数中传入`{shell: true}`来重置。
 
-返回的`ls`是一个`ChildProcess`实例，通过监听`ls`上相关stdio的`data`事件，可以获取到子进程的io流，所有的stdio都是`Stream`对象。通常情况下通过`stdin`输入流向子进程写入数据时，子进程会马上相应，除非子进程在内部使用了line-buffered。
+返回的`child`是一个`ChildProcess`实例，通过监听`child`上相关stdio的`data`事件，可以获取到子进程的io流，所有的stdio都是`Stream`对象。通常情况下通过`stdin`输入流向子进程写入数据时，子进程会马上相应，除非子进程在内部使用了line-buffered。
 
 一旦子进程退出，例如
 * 子进程报错
@@ -41,7 +41,7 @@ child.on("close", (code) => {
 * `execFileSync`
 * `execSync`
 
-接下来，我们逐个过一下`child_process`给我们提供的这些方法，这里主要记录的是异步方法，对于相应的同步方法，其参数和功能是一样的。
+接下来，我们逐个过一下`child_process`给我们提供的这些方法，这里主要记录的是异步方法，对于相应的同步方法，其参数和功能与其相应的异步版本是一样的。
 
 ## spawn(file, args, options)
 `spawn`方法是`child_process`的核心方法，所有其他的方法，都是`spawn`之上的封装，因此了解了`spawn`方法，基本就等于掌握的`child_process`模块。
