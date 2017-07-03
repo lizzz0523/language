@@ -260,14 +260,14 @@ child.unref();
 
 ### execFile(file, args, options, callback)
 这个方法和`spawn`方法的用法是基本一致的，只有两个地方不同
-* `execFile`方法中没有`shell`选项，或者可以立即为`shell`选项写死成false了，也就是说，`execFile`方法是直接运行一个可执行文件，而不可以运行shell命令。
-* `execFile`方法有`callback`回调函数，所有的子进程输出（stdout，stderr）都会被收集和解码，最终最为`callback`的参数回传。而解码的字符集可以通过`encoding`选项设置，解码的buffer大小可以通过`maxBuffer`来控制。
+* `execFile`方法中没有`shell`选项，或者可以理解为`shell`选项写死成false了，也就是说，`execFile`方法是直接运行一个可执行文件，而不可以运行shell命令。
+* `execFile`方法有`callback`回调函数，所有的子进程输出（stdout，stderr）都会被收集和解码，作为`callback`的参数回传。而解码的字符集可以通过`encoding`选项设置，解码的buffer大小可以通过`maxBuffer`来控制。
 
 ### exec(command, options, callback)
 这个方法和`execFile`基本是一样的，同样是提供了`callback`回调函数，同样是没有`shell`选项，而不同的地方就是这个`shell`选项被写死成`true`了，也就是说，`exec`方法是先启动一个shell进程，然后在这个shell进程内执行`command`命令。
 
 ### fork(script, args, options)
-`fork`方法则和前两个方法有一点不同，`fork`方法实际是会启动一个node进程，并且执行`script`指定的脚本，同时nodejs会在父子进程之间建立一个ipc双向通道，大致是可以理解为：
+`fork`方法则和前两个方法有一点不同，`fork`方法实际上是启动了一个node进程，并且执行`script`指定的脚本，同时nodejs会在父子进程之间建立一个ipc双向通道，大致是可以理解为：
 ```javascript
 function fork(scriopt, args, options) {
   const stdio = options.slient ? "pipe" : "inherit";
