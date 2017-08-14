@@ -1,4 +1,4 @@
-> 该文章为[pyimagesearch.com](http://www.pyimagesearch.com)上[Basic Image Manipulations in Python and OpenCV: Resizing (scaling), Rotating, and Cropping](http://www.pyimagesearch.com/2014/01/20/basic-image-manipulations-in-python-and-opencv-resizing-scaling-rotating-and-cropping/)的翻译，该网站还有很多很不错的关于Python和OpenCV的文章，在此给大家安利一下
+> 该文章为[pyimagesearch.com](http://www.pyimagesearch.com)上[Basic Image Manipulations in Python and OpenCV: Resizing (scaling), Rotating, and Cropping](http://www.pyimagesearch.com/2014/01/20/basic-image-manipulations-in-python-and-opencv-resizing-scaling-rotating-and-cropping/)的翻译，该网站还有很多很不错的关于Python和OpenCV的文章，在此给大家安利一下
 
 你已经准备好开发属于自己的第一个图像搜索引擎了吗？不过在此之前，我们先来了解一些基本的图像处理技巧，这些基本的技巧会在之后的开发中变得非常有用。如果你已经是一个图像处理的达人，那么这篇文章对你来说可能会很无聊，但也希望你无论如何都读一下这篇文章，一定会有意外的收获的。
 
