@@ -1,6 +1,6 @@
-最近在开发一下cli小工具时，遇到了一些和子进程相关的问题，因此在这里记录一下和`child_process`模块相关的一些知识点，主要参考的是nodejs的[官方文档](https://nodejs.org/dist/latest-v6.x/docs/api/child_process.html)，可以理解为是官方文档的意译。
+最近在开发一个cli小工具时，遇到了一些关于创建子进程的问题，因此在这里记录一下nodejs和`child_process`模块相关的一些知识点，主要参考的是nodejs的[官方文档](https://nodejs.org/dist/latest-v6.x/docs/api/child_process.html)，可以理解为是官方文档的意译。
 
-nodejs里的`child_process`模块主要提供了与`popen`系统调用类似但不完全一样的，创建子进程的能力，通过调用`child_process`里的`spawn`方法，我们就可以在nodejs里创建子进程，并且通过相关的`stdio`来达到进程通信的目的：
+nodejs里的`child_process`模块主要提供了与`popen`系统调用类似但不完全一样的，创建子进程的能力，通过调用`child_process`里的`spawn`方法，我们就可以在nodejs里创建子进程，并且通过相关的stdio来进行进程之间的通信：
 
 ```javascript
 const spawn = require("child_process").spawn;
@@ -19,9 +19,9 @@ child.on("close", (code) => {
 });
 ```
 
-上面的例子创建运行`ls`命令的子进程，并且传入参数`-ls /usr`，这里要注意，node是创建子进程，直接运行`ls`命令，而非先运行`shell`，然后在`shell`中运行`ls`命令，前者效率更高。该行为可以通过在spawn的第三个参数中传入`{shell: true}`来重置。
+上面的例子中，我们创建了运行`ls`命令的子进程，并且传入参数`-ls /usr`，要注意的是，这里nodejs是创建子进程，直接运行`ls`命令，而非先创建`shell`进程，然后在`shell`中运行`ls`命令，前者效率更高。该行为可以通过在`spawn`方法的第三个参数中传入`{shell: true}`来重置。
 
-返回的`ls`是一个`ChildProcess`实例，通过监听`ls`上相关stdio的`data`事件，可以获取到子进程的io流，所有的stdio都是`Stream`对象。通常情况下通过`stdin`输入流向子进程写入数据时，子进程会马上相应，除非子进程在内部使用了line-buffered。
+返回的`child`是一个`ChildProcess`实例，通过监听`child`上相关stdio的`data`事件，可以获取到子进程的io流，所有的stdio都是`Stream`对象。通常情况下通过`stdin`输入流向子进程写入数据时，子进程会马上相应，除非子进程在内部使用了line-buffered。
 
 一旦子进程退出，例如
 * 子进程报错
@@ -41,7 +41,7 @@ child.on("close", (code) => {
 * `execFileSync`
 * `execSync`
 
-接下来，我们逐个过一下`child_process`给我们提供的这些方法，这里主要记录的是异步方法，对于相应的同步方法，其参数和功能是一样的。
+接下来，我们逐个过一下`child_process`给我们提供的这些方法，这里主要记录的是异步方法，对于相应的同步方法，其参数和功能与其相应的异步版本是一样的。
 
 ## spawn(file, args, options)
 `spawn`方法是`child_process`的核心方法，所有其他的方法，都是`spawn`之上的封装，因此了解了`spawn`方法，基本就等于掌握的`child_process`模块。
@@ -260,14 +260,14 @@ child.unref();
 
 ### execFile(file, args, options, callback)
 这个方法和`spawn`方法的用法是基本一致的，只有两个地方不同
-* `execFile`方法中没有`shell`选项，或者可以立即为`shell`选项写死成false了，也就是说，`execFile`方法是直接运行一个可执行文件，而不可以运行shell命令。
-* `execFile`方法有`callback`回调函数，所有的子进程输出（stdout，stderr）都会被收集和解码，最终最为`callback`的参数回传。而解码的字符集可以通过`encoding`选项设置，解码的buffer大小可以通过`maxBuffer`来控制。
+* `execFile`方法中没有`shell`选项，或者可以理解为`shell`选项写死成false了，也就是说，`execFile`方法是直接运行一个可执行文件，而不可以运行shell命令。
+* `execFile`方法有`callback`回调函数，所有的子进程输出（stdout，stderr）都会被收集和解码，作为`callback`的参数回传。而解码的字符集可以通过`encoding`选项设置，解码的buffer大小可以通过`maxBuffer`来控制。
 
 ### exec(command, options, callback)
 这个方法和`execFile`基本是一样的，同样是提供了`callback`回调函数，同样是没有`shell`选项，而不同的地方就是这个`shell`选项被写死成`true`了，也就是说，`exec`方法是先启动一个shell进程，然后在这个shell进程内执行`command`命令。
 
 ### fork(script, args, options)
-`fork`方法则和前两个方法有一点不同，`fork`方法实际是会启动一个node进程，并且执行`script`指定的脚本，同时nodejs会在父子进程之间建立一个ipc双向通道，大致是可以理解为：
+`fork`方法则和前两个方法有一点不同，`fork`方法实际上是启动了一个node进程，并且执行`script`指定的脚本，同时nodejs会在父子进程之间建立一个ipc双向通道，大致是可以理解为：
 ```javascript
 function fork(scriopt, args, options) {
   const stdio = options.slient ? "pipe" : "inherit";
