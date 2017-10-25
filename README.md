@@ -23,6 +23,8 @@
 * [使用python和opencv进行图像的基本操作:缩放,旋转,裁剪](https://github.com/lizzz0523/language/blob/master/python/%E4%BD%BF%E7%94%A8python%E5%92%8Copencv%E8%BF%9B%E8%A1%8C%E5%9B%BE%E5%83%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C:%E7%BC%A9%E6%94%BE%2C%E6%97%8B%E8%BD%AC%2C%E8%A3%81%E5%89%AA.md)
 * [利用opencv实现二维码检测](https://github.com/lizzz0523/language/blob/master/python/%E5%88%A9%E7%94%A8OpenCV%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BB%B4%E7%A0%81%E6%A3%80%E6%B5%8B.md)
 * [利用opencv进行文档扫描](https://github.com/lizzz0523/language/blob/master/python/%E5%88%A9%E7%94%A8OpenCV%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E6%89%AB%E6%8F%8F.md)
+* [线性回归的数学推导和其python实现](https://github.com/lizzz0523/language/blob/master/python/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC%E5%92%8C%E5%85%B6python%E5%AE%9E%E7%8E%B0.ipynb)
+* [逻辑回归的数学推导和其python实现](https://github.com/lizzz0523/language/blob/master/python/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC%E5%92%8C%E5%85%B6python%E5%AE%9E%E7%8E%B0.ipynb)
 
 ### php
 * [php里的全局错误处理](https://github.com/lizzz0523/language/blob/master/php/php%E9%87%8C%E7%9A%84%E5%85%A8%E5%B1%80%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86.md)
