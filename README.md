@@ -1,6 +1,6 @@
 ### 语言特性
 
-记录一些平时开发中，javascript/php/python/objective-c/swift的一些用法和使用场景
+记录一些平时开发中，javascript/php/python/objective-c/rust的一些用法和使用场景
 
 ### javascript
 * [使用nodejs来写一个小爬虫](https://github.com/lizzz0523/language/blob/master/javascript/%E4%BD%BF%E7%94%A8nodejs%E6%9D%A5%E5%86%99%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%88%AC%E8%99%AB.md)
