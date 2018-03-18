@@ -32,7 +32,7 @@ imshow_rgb('original', img)
 ```
 
 
-![png](output_5_0.png)
+![png](./images/output_5_0.png)
 
 
 把图片转换成灰度图
@@ -44,7 +44,7 @@ imshow_gs('grayscale', img_gs)
 ```
 
 
-![png](output_7_0.png)
+![png](./images/output_7_0.png)
 
 
 对图片进行常规性的裁剪，只保留比较靠近中心区域的图像
@@ -59,11 +59,11 @@ imshow_gs('roi_gs', roi_gs)
 ```
 
 
-![png](output_9_0.png)
+![png](./images/output_9_0.png)
 
 
 
-![png](output_9_1.png)
+![png](./images/output_9_1.png)
 
 
 保存二值化图像
@@ -75,7 +75,7 @@ imshow_gs('roi_thresh', roi_thresh)
 ```
 
 
-![png](output_11_0.png)
+![png](./images/output_11_0.png)
 
 
 对图片进行高斯模糊，去掉高频信息，方便后面的边缘提取
@@ -87,7 +87,7 @@ imshow_gs('gaussian', roi_blur)
 ```
 
 
-![png](output_13_0.png)
+![png](./images/output_13_0.png)
 
 
 对图片进行边缘提取
@@ -99,7 +99,7 @@ imshow_gs('edage', roi_edge)
 ```
 
 
-![png](output_15_0.png)
+![png](./images/output_15_0.png)
 
 
 根据边缘信息，提取图像中的轮廓
@@ -117,7 +117,7 @@ imshow_rgb('check', roi_tmp)
 ```
 
 
-![png](output_17_0.png)
+![png](./images/output_17_0.png)
 
 
 根据轮廓的等级信息，找到二维码的Position Detection Pattern
@@ -157,7 +157,7 @@ imshow_rgb('check', roi_tmp)
 ```
 
 
-![png](output_21_0.png)
+![png](./images/output_21_0.png)
 
 
 但有时候，找到的Position Detection Pattern会超过三个，也就是有一些假的Position Detection Pattern混进了我们的结果中，需要进一步排除
@@ -193,7 +193,7 @@ print(boxes)
 接下来，我们就要开始计算这些顶点之间的距离，这里我们定义了两个函数，一个是计算两个点之间的距离，一个是用于查找两个轮廓之间，距离最短的两组顶点
 
 在寻找到距离最短的两组顶点后，我们需要顶点坐标进行校正，已使其对准二维码方块的中心
-![fixed](./fixed.jpg)
+![fixed](./images/fixed.jpg)
 
 
 ```python
@@ -247,7 +247,7 @@ imshow_rgb('points', roi_tmp)
 ```
 
 
-![png](output_28_0.png)
+![png](./images/output_28_0.png)
 
 
 接下来，我们就要看看这两种顶点之间的连线，是否符合Timing Pattern
@@ -391,7 +391,7 @@ imshow_rgb('final', roi_tmp)
 ```
 
 
-![png](output_36_0.png)
+![png](./images/output_36_0.png)
 
 
 接下来，就要对二维进行几何校正
@@ -426,7 +426,7 @@ imshow_gs('transform', roi_tr)
 ```
 
 
-![png](output_39_0.png)
+![png](./images/output_39_0.png)
 
 
 以上~
