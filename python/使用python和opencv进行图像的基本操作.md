@@ -29,7 +29,7 @@ cv2.waitKey(0)
 
 当我们运行上面这段Python代码，我们会得到如下结果：
 
-![original](basic-original.png)<br>
+![original](./images/basic-original.png)<br>
 图二 加载并显示吉普车的图片
 
 正如你所看到的，图片已经正确的显示在屏幕上。接下来我们需要解析一下这段代码：
