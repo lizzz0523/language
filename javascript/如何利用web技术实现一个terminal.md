@@ -63,6 +63,8 @@ xterm.open(document.querySelector('#terminal'))
 xterm.fit()
 ```
 
+### js与系统通信
+
 到这里为止，我们的第二个问题已经解决了。接下来我们将着手解决第一个问题。要使得js和系统通信，能想到最简单的方式是，通过`child_process`模块的`spawn`方法，把我们的输入作为第一个参数输入，并捕获其输出：
 
 ```javascript
