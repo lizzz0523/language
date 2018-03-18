@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
 但在实际运行的时候，由于`winpcapy`底层调用的是`winpcap`中的`pcap_loop`函数，该函数如果抓不到包，会一直阻塞当前进程，导致没有办法让程序停下来。
 
-为了解决这个问题，只能自己再另外封装一次。翻了一下`winpcapy`的源码，看到他实际是使用了另外一份别人实现的，利用`ctypes`对`libpcap/winpcap`进行包裹的代码，具体请移步[这里](https://code.google.com/archive/p/winpcapy)。这份代码直接把`libpcap/winpcap`的c接口原封不动的暴露了出来，因此调用起来更加随心所欲，一下是直接通过其暴露的c接口实现网络抓包：
+为了解决这个问题，只能自己再另外封装一次。翻了一下`winpcapy`的源码，看到他实际是使用了另外一份别人实现的，利用`ctypes`对`libpcap/winpcap`进行包裹的代码，具体请移步[这里](https://code.google.com/archive/p/winpcapy)。这份代码直接把`libpcap/winpcap`的c接口原封不动的暴露了出来，因此调用起来更加随心所欲，一下是直接通过其暴露的c接口实现网络抓包：
 
 ```python
 #!/usr/bin/env python
@@ -236,7 +236,7 @@ class Sniffer(object):
         return socket.inet_ntoa(ip_raw)
 ```
 
-现在我们就可以利用这个`Sniffer`类来帮助我们把二进制数据转换成可读性更高的文本内容：
+现在我们就可以利用这个`Sniffer`类来帮助我们把二进制数据转换成可读性更高的文本内容：
 
 ```python
 print Sniffer(pkt_data)
