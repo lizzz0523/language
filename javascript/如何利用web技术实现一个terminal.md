@@ -102,7 +102,7 @@ function read(command) {
 })()
 ```
 
-但这种方法在每次输入一条命令的时候，都需要创建一个新的子进程，更好的方法是直接创建一个可以交互的进程（例如在mac下我们可以直接创建一个`bash`进程），每次都把用户的输入写入到该进程的`stdin`中：
+但这种方法在每次输入一条命令的时候，都需要创建一个新的子进程，更好的方法是直接创建一个可以交互的进程（例如在mac下我们可以直接创建一个`bash`进程），每次都把用户的输入写入到该进程的`stdin`中：
 
 ```javascript
 const spawn = require('child_process').spawn
@@ -121,11 +121,11 @@ bash.stdin.write(command)
 
 这样的确可以实现交互式的输入输出，但这里有两个问题
 * 第一，输入的内容没有回显，需要我们编写代码把用户的输入显示到xterm中
-* 第二，输出的内容，由于没有可显示区域的概念，因此会出现排版错乱的问题
+* 第二，输出的内容，由于没有可显示区域的概念，因此会出现排版错乱的问题
 
-为了解决这些问题，我们不能简单创建一个`bash`进程，而是要创建一个`bash`的虚拟终端（pty）进程，而为了创建pty进程，我们需要调用系统提供的`forkpty`方法，具体可以参看[这里](https://www.gnu.org/software/gnulib/manual/html_node/forkpty.html)。而node中并没有提供这样的封装，因此我们需要另外安装`node-pty`模块，该模块是对`forkpty(3)`接口的封装。
+为了解决这些问题，我们不能简单创建一个`bash`进程，而是要创建一个`bash`的虚拟终端（pty）进程，而为了创建pty进程，我们需要调用系统提供的`forkpty`方法，具体可以参看[这里](https://www.gnu.org/software/gnulib/manual/html_node/forkpty.html)。而node中并没有提供这样的封装，因此我们需要另外安装`node-pty`模块，该模块是对`forkpty(3)`接口的封装。
 
-不过安装的过程并不是十分顺利，由于`node-pty`是需要使用`node-gyp`进行本地编译的，但由于electron中node的版本与我本地的node版本并不一样，因此需要额外对`node-pty`重新编译，这里使用的是electron-rebuild工具，它会自动根据electron的版本，对node模块进行重新编译（过程中需要科学上网）：
+不过安装的过程并不是十分顺利，由于`node-pty`是需要使用`node-gyp`进行本地编译的，但由于electron中node的版本与我本地的node版本并不一样，因此需要额外对`node-pty`重新编译，这里使用的是electron-rebuild工具，它会自动根据electron的版本，对node模块进行重新编译（过程中需要科学上网）：
 
 ```shell
 electron-rebuild -f -w /node_modules/node-pty
@@ -152,6 +152,6 @@ xterm.on('data', (data) => {
 })
 ```
 
-到这里为止，我们已经可以在web页面中与终端进行交互了。当然上文说的都是在electron的renderer进程中运行的代码，如果你需要在浏览器中运行，则另外需要诸如web socket的辅助。
+到这里为止，我们已经可以在web页面中与终端进行交互了。当然上文说的都是在electron的renderer进程中运行的代码，如果你需要在浏览器中运行，则另外需要诸如web socket的辅助。
 
 以上～～
