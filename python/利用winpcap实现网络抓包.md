@@ -49,6 +49,7 @@ if __name__ == '__main__':
 #!/usr/bin/env python
 # coding=utf-8
 
+from ctypes import *
 # https://code.google.com/archive/p/winpcapy/
 from winpcapy import *
 
