@@ -1,4 +1,4 @@
-在上一篇文章《http.createServer竟然背着我做了这些事情》中，我们已经实现了一个能完成基本http通信的乞丐版http服务器，但其中存在一些问题，包括：
+在上一篇文章[《http.createServer竟然背着我做了这些事情》](https://github.com/lizzz0523/language/blob/master/javascript/http.createServer%E7%AB%9F%E7%84%B6%E8%83%8C%E7%9D%80%E6%88%91%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BA%8B%E6%83%85.md)中，我们已经实现了一个能完成基本http通信的乞丐版http服务器，但其中存在一些问题，包括：
 
 * 这个基础版本的http服务器，只支持ipv4协议，而我们的http.createServer实际是同时支持ipv4和ipv6的
 * 当我们完成一次请求后，关闭程序（ctrl-c)，并马上重启服务时，会出现 **Address already in use** 错误
