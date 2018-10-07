@@ -43,9 +43,9 @@ servaddr.sin6_port = htons(8080);
 
 unix系统提供了一个`getaddrinfo`方法，主要用于dns域名解析的。我们只须向`getaddrinfo`方法中传入域名（如www.qq.com）和服务名称（如tcp），系统则会通过dns协议，查找到与该域名和服务对应的ip地址和端口列表，同时把与该域名和服务相关的，如cname，ip协议版本等信息一并返回。
 
-除了能完成dns查询以外，`getaddrinfo`还能用于获取本地可用ip地址和端口的信息，如此我们就可以利用它的这个能力来实现一个协议无关的http服务。
+除了能完成dns查询以外，`getaddrinfo`还能用于获取本地可用ip地址和端口的信息，如此我们就可以利用它的这个能力来实现一个协议无关的http服务。
 
-接下来，我们首先需要编写一个名为`tcp_listen`的函数，该函数用于建立基础的tcp服务。在`tcp_listen`函数中，我们会调用`getaddrinfo`方法来获取本地可用ip地址和端口：
+接下来，我们首先需要编写一个名为`tcp_listen`的函数，该函数用于建立基础的tcp服务。在`tcp_listen`函数中，我们会调用`getaddrinfo`方法来获取本地可用ip地址和端口：
 
 ```c
 #include <netdb.h>
