@@ -133,7 +133,7 @@ int tcp_listen(const char *host, const char *serv)
             continue;
 
         int on = 1;
-        setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+        setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
 
         if (bind(fd, cur->ai_addr, cur->ai_addrlen) == 0)
             break;
