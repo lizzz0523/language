@@ -84,7 +84,7 @@ int tcp_listen(const char *host, const char *serv)
         return -1;
     }
 
-    // 否则返回已创建服务的文件描述符
+    // 否则返回已创建服务的文件描述符
     freeaddrinfo(res);
     listen(fd, 512);
 
