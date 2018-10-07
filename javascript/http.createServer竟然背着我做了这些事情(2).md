@@ -154,7 +154,7 @@ int tcp_listen(const char *host, const char *serv)
 ### `server_t`类，用于管理tcp服务
 
 ```c
-typedef {
+typedef struct {
     int fd;
 } server_t;
 
@@ -178,7 +178,7 @@ void server_close(server_t *srv)
 ### `session_t`类，用于管理tcp连接
 
 ```c
-typedef {
+typedef struct {
     int fd;
 } session_t;
 
