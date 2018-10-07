@@ -1,15 +1,15 @@
-在上一篇文章[《http.createServer竟然背着我做了这些事情》](https://github.com/lizzz0523/language/blob/master/javascript/http.createServer%E7%AB%9F%E7%84%B6%E8%83%8C%E7%9D%80%E6%88%91%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BA%8B%E6%83%85.md)中，我们已经实现了一个能完成基本http通信的乞丐版http服务器，但其中存在一些问题，包括：
+在上一篇文章[《http.createServer竟然背着我做了这些事情》](https://github.com/lizzz0523/language/blob/master/javascript/http.createServer%E7%AB%9F%E7%84%B6%E8%83%8C%E7%9D%80%E6%88%91%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BA%8B%E6%83%85.md)中，我们已经实现了一个能完成基本http通信的乞丐版http服务器，但这个版本的http服务器存在一些问题，其中包括：
 
-* 这个基础版本的http服务器，只支持ipv4协议，而我们的http.createServer实际是同时支持ipv4和ipv6的
+* 乞丐版本的http服务器，只支持ipv4协议，而我们的http.createServer则是同时支持ipv4和ipv6协议
 * 当我们完成一次请求后，关闭程序（ctrl-c)，并马上重启服务时，会出现 **Address already in use** 错误
 
 而今天这篇文章，我们就来尝试修复这些问题，同时对整个程序的结构进行调整，方便之后的扩展。
 
 ## 同时支持ipv4和ipv6
 
-### 分析代码中的那些与ipv4协议强关联的部分
+### 分析代码中那些与ipv4协议强关联的部分
 
-要让我们的http服务同时支持ipv4和ipv6协议，首先我们就要找出代码中hard code的部分。这样的代码主要存在与以下两个地方：
+要让我们的http服务同时支持ipv4和ipv6协议，首先我们就要找出代码中hard code的部分。这些代码主要存在于以下两个地方：
 
 1. 在调用`socket`函数时，传入的`AF_INET`参数，该参数在ipv6协议下，应该改为`AF_INET6`;
 ```c
@@ -20,7 +20,7 @@
 int listenfd = socket(AF_INET6, SOCK_STREAM, 0);
 ```
 
-2. 在`bind`方法中，用于保存本地ip地址和端口的`struct sockaddr_in`结构体，在ipv6协议下，应该改为`struct sockaddr_in6`
+2. 在`bind`方法中，用于保存本地ip地址和端口的`sockaddr_in`结构体，在ipv6协议下，应该改为`sockaddr_in6`
 ```c
 /**
  * ipv4
@@ -37,13 +37,13 @@ servaddr.sin6_addr.s_addr = htonl(INADDR_ANY);
 servaddr.sin6_port = htons(8080);
 ```
 
-要去掉这些hard code的部分，能想到的最简单的方式，就是通过预定义宏来判断系统是否支持ipv6，并针对不同的情况使用不同的代码。然而这并不是最好的方法。接下来我就会介绍一个unix系统提供的方案，能非常优雅的解决这个对协议支持的问题。
+要去掉这些hard code的部分，能想到的最简单的方式，就是通过预定义宏来判断系统是否支持ipv6，并针对不同的情况使用不同的代码。然而这并不是最好的方法。接下来我就会介绍一种unix系统提供的方案，能非常优雅的解决这个关于协议支持的问题。
 
 ### 通过`getaddrinfo`方法，创建协议无关的tcp服务
 
-unix系统提供了一个`getaddrinfo`方法，主要用于dns域名解析的。我们只须向`getaddrinfo`方法中传入域名（如www.qq.com）和服务名称（如tcp），系统则会通过dns协议，查找到与该域名和服务对应的ip地址和端口列表，同时把与该域名和服务相关的，如cname，ip协议版本等信息一并返回。
+unix系统提供了一个名叫`getaddrinfo`的方法，该方法主要用于dns域名解析。我们只须向`getaddrinfo`方法中传入域名（如www.qq.com）和服务名称（如http），系统则会通过dns协议，查找到与该域名和服务对应的ip地址和端口列表，同时把与该域名和服务相关的，如cname，ip协议版本等信息一并返回。
 
-除了能完成dns查询以外，`getaddrinfo`还能用于获取本地可用ip地址和端口的信息，如此我们就可以利用它的这个能力来实现一个协议无关的http服务。
+除了能完成dns查询以外，`getaddrinfo`方法还能用于获取本地可用ip地址和端口信息。如此一来，我们就可以利用它的这个能力来实现一个协议无关的http服务。
 
 接下来，我们首先需要编写一个名为`tcp_listen`的函数，该函数用于建立基础的tcp服务。在`tcp_listen`函数中，我们会调用`getaddrinfo`方法来获取本地可用ip地址和端口：
 
@@ -94,9 +94,9 @@ int tcp_listen(const char *host, const char *serv)
 
 函数`tcp_listen`中主要完成了以下几个事情：
 
-1. 调用`getaddrinfo`方法，并传入域名和服务名称，当需要获取本地可用ip地址时，域名传入`NULL`。注意，`getaddrinfo`方法接受一个提示参数（hints）,用于告诉系统我们需要获取的ip地址和端口类型，在这里我们传入了一个`addrinfo`结构体，其中的`ai_flags`字段设置为`AI_PASSIVE`，意味着我们要获取的地址信息将用于被动打开，亦即http服务端。而`ai_family`字段设置为`AF_UNSPEC`，意味着返回所有可以ip地址，包括ipv4和ipv6，最后`ai_socktype`字段设置为`SOCK_STREAM`，即返回的端口需要支持tcp协议。当`getaddrinfo`方法调用成功时，会返回一个链表，其中的每一项为一个`addrinfo`结构体。由于这个链表的内存是由系统分配的，因此在使用完后，需要调用`freeaddrinfo`方法释放内存。
+1. 调用`getaddrinfo`方法，并传入域名和服务名称，当需要获取本地可用ip地址时，域名传入`NULL`。注意，`getaddrinfo`方法接受一个提示参数（hints）,用于告诉系统我们需要获取的ip地址和端口类型，在这里我们传入了一个`addrinfo`结构体，其中的`ai_flags`字段设置为`AI_PASSIVE`，意味着我们要获取的地址信息将用于被动打开tcp连接，亦即用于http服务端。而`ai_family`字段则设置为`AF_UNSPEC`，意味着返回所有可以ip地址，包括ipv4和ipv6地址，最后`ai_socktype`字段设置为`SOCK_STREAM`，即返回的端口需要支持tcp协议。当`getaddrinfo`方法调用成功时，会返回一个链表，其中的每一项为一个`addrinfo`结构体。由于这个链表的内存是由系统分配的，因此在使用完后，需要调用`freeaddrinfo`方法释放内存。
 
-2. 在获取可用ip地址和端口列表后，我们就可以遍历这个列表，逐一的尝试，直到找到一个可用的ip地址和端口后跳出循环，并返回对于的文件描述符。如果所有的ip地址和端口都无法建立其tcp服务时，则返回-1，告知调用方调用失败。
+2. 在获取可用ip地址和端口列表后，我们就可以遍历这个列表，逐一的尝试，直到找到一个可用的ip地址和端口后跳出循环，并返回对应的文件描述符。如果所有的ip地址和端口都无法建立起tcp服务，则返回-1，告知调用方调用失败。
 
 这时，我们就可以利用这个`tcp_listen`方法来代替原来的建立tcp服务的代码：
 
@@ -118,7 +118,7 @@ int main()
 
 ### 解决 **Address already in use** 错误
 
-正如文章一开始提到，当我们完成一次请求后，关闭程序（ctrl-c)，并马上重启服务时，会出现 **Address already in use** 错误。其实这个错误主要是由于tcp连接其主动断开一端（通常为服务端）在关闭连接后会进入到time wait状态，并持续约75秒，以确认对端已完全断开连接。而在着75秒期间，之前连接所使用的ip地址和端口都会被占有。如果这时再次建立tcp服务，并尝试绑定到原ip地址和端口上时，系统就会提示 **Address already in use**。
+正如文章一开始提到，当我们完成一次请求后，关闭程序（ctrl-c)，并马上重启服务时，会出现 **Address already in use** 错误。其实这个错误主要是由于tcp连接中，主动断开一端（通常为服务端）在关闭连接后会进入到time wait状态，并持续约75秒，以确认对端已完全断开连接。而在这75秒期间，之前连接所使用的ip地址和端口会一直被占有。如果这时再次建立tcp服务，并尝试绑定到原ip地址和端口上时，系统就会提示 **Address already in use**。
 
 为了解决这个问题，我们就需要通过设置`SO_REUSEADDR`这个socket选项，来告知系统允许对同一对ip地址和端口进行重复绑定，具体的代码如下:
 
