@@ -1,4 +1,4 @@
-在实现，例如富文本编辑器这样的需求时，我们通常都需要自己实现一套 DOM Range 以弥补IE的问题，以下是我根据Whatwg对 DOM Range 的定义文档https://dom.spec.whatwg.org/#ranges，实现的一套 DOM Range polyfill
+在实现，例如富文本编辑器这样的需求时，我们通常都需要自己实现一套 DOM Range 以弥补IE的问题，以下是我根据Whatwg对 DOM Range 的定义[文档](https://dom.spec.whatwg.org/#ranges)，实现的一套 DOM Range polyfill
 
 ```typescript
 module RangePolyfill {
