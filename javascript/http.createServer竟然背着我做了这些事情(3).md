@@ -11,7 +11,7 @@
 
 从过程来分，http协议可以分成两个部分，一个是来自客户端发起http请求，另一个是来自服务端返回的响应。
 
-而从内容来分，http协议则可以分成三个部分，一个是http请求/响应行，然后是http头部，最后是http消息体，而http请求和http响应在内容上的主要分别在于请求/响应行的格式不同，下面是一个简单的例子：
+而从内容来分，http协议则可以分成三个部分，一个是http请求/响应行，然后是http头部，最后是http消息体，而http请求和http响应在内容上的主要分别在于请求/响应行的格式不同，下面是一个简单的例子：
 
 http请求
 ```
@@ -43,9 +43,9 @@ Content-Encoding: gzip
 </html>
 ```
 
-从以上的这个例子中我们可以看到http协议是一个明文协议，也就是说，在tcp连接上传输的所有http消息，均以非加密文本的形式出现。这些http消息是由多个行组成，行与行之间通过换行符`"\r\n"`分割。
+从以上的这个例子中我们可以看到http协议是一个明文协议，也就是说，在tcp连接上传输的所有http消息，均以非加密文本的形式出现。这些http消息是由多个行组成，行与行之间通过换行符`"\r\n"`分割。
 
-每次传输的http消息中的第一行就是http请求/响应行，当中包含了请求方法（`GET`），请求路径（`/`），http版本号（`HTTP/1.1`），响应状态码（`200`）以及描述响应状态的短语（`OK`）等信息。
+每次传输的http消息中的第一行就是http请求/响应行，当中包含了请求方法（`GET`），请求路径（`/`），http版本号（`HTTP/1.1`），响应状态码（`200`）以及描述响应状态的短语（`OK`）等信息。
 
 在请求/响应行的下一行开始就是http头部，每一行都是一对key-value值（`Host: www.qq.com`），key和value中间通过`: `分割。
 
@@ -81,7 +81,7 @@ http_parser_init(parser, HTTP_REQUEST);
 http_parser_execute(parser, &settings, buf, len);
 ```
 
-上面是请求修改自[README](https://github.com/nodejs/http-parser/blob/master/README.md)中的一段demo，用于解析http请求中的请求路径。
+上面是请求修改自[README](https://github.com/nodejs/http-parser/blob/master/README.md)中的一段demo，用于解析http请求中的请求路径。
 
 有了这些准备后，我们就可以正式向我们的http服务器中添加解析http协议的相关代码了。首先我们定义一个`request_t`类，用于保存解析http请求中的相关数据，其中包括了用于保存http-parser和其相关设置的`settings`和`parser`字段，还用用于保存http请求信息的`http_version`，`http_method`，`http_url`，`http_headers`，`http_body`等字段，其中的`http_headers`我们使用了一个自定义的哈希表`hashmap_t`实例来承载。最后还有一个`is_ready`字段用于保存当前http消息时候已经完整：
 
