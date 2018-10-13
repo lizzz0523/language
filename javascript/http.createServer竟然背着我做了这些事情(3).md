@@ -57,7 +57,7 @@ Content-Encoding: gzip
 
 ## http-parser介绍
 
-要使用这个http-parser库，我们首先要把他从github上克隆到我们的项目文件夹下（假设我们的项目文件夹叫http-server）：
+要使用这个http-parser库，我们首先要把它从github上克隆到我们的项目文件夹下（假设我们的项目文件夹叫http-server）：
 
 ```shell
 $ cd http-server
@@ -89,7 +89,7 @@ http_parser_execute(parser, &settings, buf, len);
 
 ## 解析http协议
 
-在熟悉了http-parser提供的接口后，我们就可以正式向我们的http服务器中添加解析http协议的相关代码了。首先我们定义一个`request_t`类，用于保存http请求中的相关数据，其中包括了用于保存http-parser与其相关设置的`parser`和`settings`字段，还有用于保存http请求信息的`http_version`，`http_method`，`http_url`，`http_headers`，`http_body`等字段，其中的`http_headers`我们使用了一个自定义的哈希表`hashmap_t`实例来承载。最后还有一个`is_ready`字段用于保存当前http消息是否已经完毕：
+在熟悉了http-parser提供的接口后，我们就可以正式向我们的http服务器中添加解析http协议的相关代码了。首先我们定义一个`request_t`类，用于保存http请求中的相关数据，其中包括了用于保存http-parser及其相关设置的`parser`和`settings`字段，还有用于保存http请求信息的`http_version`，`http_method`，`http_url`，`http_headers`，`http_body`等字段，其中的`http_headers`我们使用了一个自定义的哈希表`hashmap_t`实例来承载。最后还有一个`is_ready`字段用于保存当前http消息是否已经完毕：
 
 ```c
 typedef struct {
@@ -166,7 +166,7 @@ static void request_free(request_t *req)
 }
 ```
 
-然后，我们再来定义一些setter用于更新`request_t`实例数据：
+然后，我们再来定义一些setter用于更新`request_t`实例数据，并在不同的http-parser回调函数中使用它：
 
 ```c
 #define HTTP_SETTER(name)                                                  \
@@ -247,6 +247,61 @@ static void request_set_headers(request_t *req, const char *str, size_t len)
     free(value);
 
     key = NULL;
+}
+
+// 当http-parser通知消息结束时，标记request_t种的is_ready字段为1
+static int on_message_complete(http_parser *parser) {
+    request_t *req = (request_t *)parser->data;
+    req->is_ready = 1;
+
+    return 0;
+}
+
+// 当http请求头解析完成时，我们能确保版本号以及请求方法已经被正确解析了
+static int on_headers_complete(http_parser *parser)
+{
+    request_t *req = (request_t *)parser->data;
+
+    request_set_version(req, parser->http_major, parser->http_minor);
+    request_set_method(req, parser->method);
+
+    return 0;
+}
+
+// 保存请求路径
+static int on_url(http_parser *parser, const char *str, size_t len) {
+    request_t *req = (request_t *)parser->data;
+    
+    request_set_url(req, str, len);
+
+    return 0;
+}
+
+// 保存每一个请求头的key值
+static int on_header_field(http_parser *parser, const char *str, size_t len) {
+    request_t *req = (request_t *)parser->data;
+
+    request_set_headers(req, str, len);
+
+    return 0;
+}
+
+// 保存每一个请求头的value值
+static int on_header_value(http_parser *parser, const char *str, size_t len) {
+    request_t *req = (request_t *)parser->data;
+
+    request_set_headers(req, str, len);
+
+    return 0;
+}
+
+// 保存请求消息体
+static int on_body(http_parser *parser, const char *str, size_t len) {
+    request_t *req = (request_t *)parser->data;
+
+    request_set_body(req, str, len);
+
+    return 0;
 }
 ```
 
