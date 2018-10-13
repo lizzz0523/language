@@ -55,7 +55,7 @@ Content-Encoding: gzip
 
 这里只是对http协议的简单介绍，真实情况下的http请求和响应要比上面说到的负责得多。虽然如此，但要在我们的http服务中解析http协议则并没有想象中困难，原因是nodejs的开发团队已经把在nodejs中使用到的，c语言版本的[http parser库](https://github.com/nodejs/http-parser)独立开源了。我们只需要在项目种引用它就能完成http协议的解析。
 
-## http-parser
+## http-parser介绍
 
 要使用这个http-parser库，我们首先要把他从github上克隆到我们的项目文件夹下（假设我们的项目文件夹叫http-server）：
 
