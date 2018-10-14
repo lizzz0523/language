@@ -60,9 +60,9 @@ Content-Encoding: gzip
 
 从请求/响应行的下一行开始就是http头部，每一行都是一对key-value键值对（`Host: www.qq.com`），key和value中间通过`: `分割。
 
-而http消息体则不是必须的，如果存在http消息体，则http头部和http消息体之间会通过两次换行符（`\r\n\r\n`）分割。http消息体中可以包含多种格式的数据（最常见的是html），直到遇到另一个两次换行符（`\r\n\r\n`），其标记着本次http消息结束。
+而http消息体则不是必须的，如果存在http消息体，则http头部和http消息体之间会通过两次换行符（`\r\n\r\n`）分割。http消息体中可以包含多种格式的数据（最常见的是html），直到遇到另一个两次换行符（`\r\n\r\n`），其标志着本次http消息结束。
 
-这里只是对http协议的简单介绍，真实情况下的http请求和响应要比上面说到的负责得多。虽然如此，但要在我们的http服务中解析http协议则并没有想象中困难，原因是nodejs的开发团队已经把在nodejs中使用到的，c语言版本的[http parser库](https://github.com/nodejs/http-parser)独立开源了。我们只需要在项目种引用它就能完成http协议的解析。
+这里只是对http协议的简单介绍，真实情况下的http请求和响应要比上面说到的复杂得多。虽然如此，但要在我们的http服务中解析http协议则并没有想象中困难，原因是nodejs的开发团队已经把在nodejs中使用到的，c语言版本的[http parser库](https://github.com/nodejs/http-parser)独立开源了。我们只需要在项目中引用它就能完成http协议的解析。
 
 ## http-parser介绍
 
@@ -350,8 +350,6 @@ static int http_request(session_t *sess, request_t *req)
 // 构造http响应，此时的http响应状态码为200
 static int http_response(session_t *sess, request_t *req)
 {
-    request_print(req);
-
     buffer_t *buf = buffer_init();
     buffer_append_string(buf, req->http_version);
     buffer_append_string(buf, " 200 OK\r\n\r\n");
