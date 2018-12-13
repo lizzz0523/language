@@ -118,10 +118,10 @@ typedef struct {
 ```c
 static int on_message_complete(http_parser *parser);
 static int on_headers_complete(http_parser *parser);
-static int on_url(http_parser *parser, const char *str, size_t len);
 static int on_header_field(http_parser *parser, const char *str, size_t len);
 static int on_header_value(http_parser *parser, const char *str, size_t len);
 static int on_body(http_parser *parser, const char *str, size_t len);
+static int on_url(http_parser *parser, const char *str, size_t len);
 
 // 初始化reqeust_t实例
 static request_t *request_init()
