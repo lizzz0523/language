@@ -18,7 +18,7 @@
 
 ```javascript
 class Task {
-  constructor(run, ...args) {
+  constructor (run, ...args) {
     this.run_ = run
     this.args_ = args
   }
@@ -66,7 +66,7 @@ async function run (tasks, max) {
 至此，我们已经完成这个基本的并发控制模型了，接下来顺手把题目中的`request`函数实现一下：
 
 ```javascript
-function request(urls, maxNumber, callback) {
+function request (urls, maxNumber, callback) {
   const tasks = urls.map(url => new Task(fetch, url))
   run(tasks, maxNumber).then(callback)
 }
@@ -98,7 +98,7 @@ async function run (tasks, max = 4) {
   })
 }
 
-function request(urls, maxNumber, callback) {
+function request (urls, maxNumber, callback) {
     const tasks = urls.map(url => fetch.bind(null, url))
     run(tasks, maxNumber).then(callback)
 }
