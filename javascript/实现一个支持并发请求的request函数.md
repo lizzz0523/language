@@ -99,8 +99,8 @@ async function run (tasks, max = 4) {
 }
 
 function request (urls, maxNumber, callback) {
-    const tasks = urls.map(url => fetch.bind(null, url))
-    run(tasks, maxNumber).then(callback)
+  const tasks = urls.map(url => fetch.bind(null, url))
+  run(tasks, maxNumber).then(callback)
 }
 ```
 
