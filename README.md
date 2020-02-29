@@ -24,6 +24,7 @@
 * [http.createServer竟然背着我做了这些事情(2)](https://github.com/lizzz0523/language/blob/master/javascript/http.createServer%E7%AB%9F%E7%84%B6%E8%83%8C%E7%9D%80%E6%88%91%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BA%8B%E6%83%85(2).md)
 * [http.createServer竟然背着我做了这些事情(3)](https://github.com/lizzz0523/language/blob/master/javascript/http.createServer%E7%AB%9F%E7%84%B6%E8%83%8C%E7%9D%80%E6%88%91%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BA%8B%E6%83%85(3).md)
 * [实现一个支持并发请求的request函数](https://github.com/lizzz0523/language/blob/master/javascript/%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%B9%B6%E5%8F%91%E8%AF%B7%E6%B1%82%E7%9A%84request%E5%87%BD%E6%95%B0.md)
+* [震惊不使用Emscripten也能把C编译成Webassembly](https://github.com/lizzz0523/language/blob/master/javascript/%E9%9C%87%E6%83%8A%E4%B8%8D%E4%BD%BF%E7%94%A8Emscripten%E4%B9%9F%E8%83%BD%E6%8A%8AC%E7%BC%96%E8%AF%91%E6%88%90Webassembly.md)
 
 ### go
 * [试用go的webrtc包，实现简单的datachannel](https://github.com/lizzz0523/language/blob/master/go/%E8%AF%95%E7%94%A8go%E7%9A%84webrtc%E5%8C%85%EF%BC%8C%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E7%9A%84datachannel.md)
