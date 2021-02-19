@@ -91,7 +91,7 @@ Napi::Object init(Napi::Env env, Napi::Object exports) {
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, init)
 ```
 
-其中`<napi.h>`是node-addon-api给我们提供的头文件，而`init`函数，就是我们所需要的入口函数，而且在init函数，我们发了一个熟悉的身影 -- `exports`对象，没错，这个`exports`对象，就是js模块中的`exports`对象（导出对象），不同的是，这里的`exports`对象是个c++对象（`Napi::Object`）。
+其中`<napi.h>`是node-addon-api给我们提供的头文件，而`init`函数，就是我们所需要的入口函数，而且在init函数，我们发现了一个熟悉的身影 -- `exports`对象，没错，这个`exports`对象，就是js模块中的`exports`对象（导出对象），不同的是，这里的`exports`对象是个c++对象（`Napi::Object`）。
 
 ### 设置模块属性
 
@@ -278,7 +278,7 @@ Napi::Value callByIndex(const Napi::CallbackInfo& info) {
 
 这个方法有点长，但主要就是做了两个事情，第一个是参数校验，由于js是弱类型的，任何从js中传入的参数，在正式参与计算前，都需要做类型判断，并转换成对应的cpp数据类型。这里我写了一个宏来减少代码量，大家可以自行展开。
 
-在完成参数校验和转换后，接下来第二个就是调用tulip提供的方法了，具体的调用和上一节中说到的大同小异，具体大家可以看我上面的注释。最后就是把计算结果返回给js。
+在完成参数校验和转换后，接下来第二个就是调用tulip提供的方法了，实际的调用和上一节中说到的大同小异，具体大家可以看我上面的注释。最后就是把计算结果返回给js。
 
 接下来，就把这个方法写入`exports`对象吧：
 
@@ -360,7 +360,7 @@ for (const [name, indicator] of Object.entries(addon.indicators)) {
     const inputs = args.slice(0, indicator.inputs);
     const options = [];
 
-    const [rest = {}] = args.splice(indicator.inputs);
+    const [rest = {}] = args.slice(indicator.inputs);
     for (const name of indicator.optionNames) {
       options.push(rest[name] || 0);
     }
