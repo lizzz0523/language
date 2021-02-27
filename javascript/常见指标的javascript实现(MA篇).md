@@ -105,32 +105,55 @@ MACD = DIF - DEA
 
 下面是采用javascript实现的，其中`K=9`，`N=12`，`M=26`：
 ```javascript
-function ema(values, period) {
-  const a = 2 / (period + 1);
-  const b = 1 - a;
-  for (let i = 0; i < values.length; i++) {
-    ema[i] = b * (ema[i - 1] || 0) + a * values[i];
-  }
-  return ema;
-}
-function diff(avalues, bvalues) {
-  const diff = [];
-  for (let i = 0; i < avalues.length; i++) {
-    diff[i] = avalues[i] - bvalues[i];
-  }
-  return diff;
-}
-```
-```javascript
 const close = Array.from({ length: 100 }, () => 100 * Math.random());
 const fast = 12;
 const slow = 24;
-const single = 9;
+const signal = 9;
+```
+```javascript
+function ema(arr, period) {
+  const a = 2 / (period + 1);
+  const b = 1 - a;
+  for (let i = 0; i < arr.length; i++) {
+    ema[i] = b * (ema[i - 1] || 0) + a * arr[i];
+  }
+  return ema;
+}
+
+function diff(arr1, arr2) {
+  const diff = [];
+  for (let i = 0; i < arr1.length; i++) {
+    diff[i] = arr1[i] - arr2[i];
+  }
+  return diff;
+}
+
 const ma1 = ema(close, fast);
 const ma2 = ema(close, show);
 const dif = diff(ma1, ma2);
-const dea = ema(dif, single);
+const dea = ema(dif, signal);
 const macd = diff(dif, dea);
+```
+这里采用的是函数调用的方式来计算，也可以直接展开的单个循环：
+```javascript
+let ma1 = 0;
+let ma2 = 0;
+const dif = [];
+const dea = [];
+const macd = [];
+const fastA = 1 / fast;
+const fastB = 1 - fastA;
+const slowA = 1 / slow;
+const slowB = 1 - slowA;
+const signalA = 1 / signal;
+const signalB = 1 - signalA;
+for (let i = 0; i < close.length; i++) {
+  ma1 = fastB * ma1 + fastA * close[i];
+  ma2 = slowB * ma2 + slowA * close[i];
+  dif[i] = ma1 - ma2;
+  dea[i] = signalB * (dea[i - 1] || 0) + signalA * dif[i];
+  macd[i] = dif[i] - dea[i];
+}
 ```
 其中我们上面说到的反应`X`的变化趋势的是`DIF`和`DEA`，而`MACD`本身，反映的是变化趋势自身的变化趋势。
 
