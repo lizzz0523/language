@@ -98,7 +98,7 @@ MACD是移动平均聚散度（Moving Average Convergence Divergence）的意思
 ```
 MA1 = EMA(X, N), MA2 = EMA(X, M)
 DIF = MA1 - MA2, DEA = EMA(DIF, K)
-MACD = 2 * (DIF - DEA)
+MACD = DIF - DEA
 其中: K < N < M
 ```
 从上面的公式可以看到，我们首先需要计算两个MA值，一个是快的`MA1`（`N`比较小的），另一个是慢的`MA2`（`N`比较大的）。接下来进行差分计算`DIF`。然后再一次对`DIF`进行MA计算得出`DEA`，这时候你就得到另外两个快慢MA值`DIF`和`DEA`（`DIF`可以理解为`EMA(DIF, 1)`）。最后再对这两个MA值进行查分计算，得到`MACD`值。
@@ -113,10 +113,10 @@ function ema(values, period) {
   }
   return ema;
 }
-function diff(avalues, bvalues, amplitude = 1) {
+function diff(avalues, bvalues) {
   const diff = [];
   for (let i = 0; i < avalues.length; i++) {
-    diff[i] = amplitude * (avalues[i] - bvalues[i]);
+    diff[i] = avalues[i] - bvalues[i];
   }
   return diff;
 }
@@ -130,7 +130,7 @@ const ma1 = ema(close, fast);
 const ma2 = ema(close, show);
 const dif = diff(ma1, ma2);
 const dea = ema(dif, single);
-const macd = diff(dif, dea, 2);
+const macd = diff(dif, dea);
 ```
 其中我们上面说到的反应`X`的变化趋势的是`DIF`和`DEA`，而`MACD`本身，反映的是变化趋势自身的变化趋势。
 
