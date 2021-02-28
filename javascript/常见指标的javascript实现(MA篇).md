@@ -101,13 +101,13 @@ DIF = MA1 - MA2, DEA = EMA(DIF, K)
 MACD = DIF - DEA
 其中: K < N < M
 ```
-从上面的公式可以看到，我们首先需要计算两个MA值，一个是快的`MA1`（`N`比较小的），另一个是慢的`MA2`（`N`比较大的）。接下来进行差分计算`DIF`。然后再一次对`DIF`进行MA计算得出`DEA`，这时候你就得到另外两个快慢MA值`DIF`和`DEA`（`DIF`可以理解为`EMA(DIF, 1)`）。最后再对这两个MA值进行查分计算，得到`MACD`值。
+从上面的公式可以看到，我们首先需要计算两个MA值，一个是快的`MA1`（`N`比较小的），另一个是慢的`MA2`（`N`比较大的）。接下来进行差分计算`DIF`。然后再一次对`DIF`进行MA计算得出`DEA`，这时候你就得到另外两个快慢MA值`DIF`和`DEA`（`DIF`可以理解为`EMA(DIF, 1)`）。最后再对这两个MA值进行差分计算，得到`MACD`值。
 
 下面是采用javascript实现的，其中`K=9`，`N=12`，`M=26`：
 ```javascript
 const close = Array.from({ length: 100 }, () => 100 * Math.random());
 const fast = 12;
-const slow = 24;
+const slow = 26;
 const signal = 9;
 ```
 ```javascript
