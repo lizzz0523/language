@@ -90,7 +90,7 @@ for (let i = 0; i < close.length; i++) {
 ### MACD（移动平均聚散度，Moving Average Convergence Divergence）
 在知道了MA是什么后，我们就可以利用MA来计算一个重要的技术指标 -- MACD。
 
-MACD是移动平均聚散度（Moving Average Convergence Divergence）的意思。是用来描述快慢两个MA值之间的差异程度的。
+MACD是移动平均聚散度（Moving Average Convergence Divergence）的意思。是用来描述快慢两个MA值之间的差异程度的，由Gerald Appel于1970年代提出，用于研判股票价格变化的趋势。
 
 从上面的介绍中，我们知道`N`越小的MA，对`X`的当前值反应越快，越能代表`X`最近的值，而`N`越大的MA，对`X`的当前值的反应较慢，也就是越能代表`X`过去的值，而如果我们想知道相对于过去，`X`最近的值是涨了还是跌了，涨跌的强度如何，我们就可以用两个`N`不同的MA值进行差分处理，如果快的MA比慢的MA要大，证明`X`的值在上涨，并且差值越大，涨得越猛，相反如果快的MA比慢的MA要小，证明`X`的值在下跌，而且差值（负的）越小，跌得越重。
 
