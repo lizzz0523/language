@@ -34,7 +34,7 @@ for (let i = 0; i < close.length; i++) {
   sma[i] = a * sum;
 }
 ```
-再进一步，换成递推形式（`SMA[i] = f(SMA[i - 1])`）：
+再进一步，换成递推形式（`SMA[i] = f(SMA[i - 1]) = SMA[i - 1] + A * (X[i] - X[i - N])`）：
 ```javascript
 const sma = [];
 const a = 1 / period;
@@ -77,7 +77,7 @@ for (let i = 0; i < close.length; i++) {
   ema[i] = a * sum;
 }
 ```
-再进一步，换成递推形式（`EMA[i] = f(EMA[i - 1])`）：
+再进一步，换成递推形式（`EMA[i] = f(EMA[i - 1]) = (1 - A) * EMA[i - 1] + A * X[i]`）：
 ```javascript
 const ema = [];
 const a = 2 / (period + 1);
