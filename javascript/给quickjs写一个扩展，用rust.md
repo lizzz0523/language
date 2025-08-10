@@ -156,3 +156,6 @@ $
 ```
 
 这样，你就可以在js中愉快的玩耍你的rust了，以上～
+
+对了，最后我利用这个习得的技能，给quickjs实现了一个canvas，可以用来模拟浏览器中的canvas，以上～
+[quickjs-rust](./images/quickjs-rust.png)
