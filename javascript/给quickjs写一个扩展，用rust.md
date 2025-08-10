@@ -4,7 +4,7 @@
 
 今天，我再次挑战自己，而这次，我决定给quickjs一个机会，不过这次我想尝试使用rust来实现这个扩展。废话不多少，先上文档
 
-在quickjs的官方文档中，有这么一个关于模块的[章节](https://bellard.org/quickjs/quickjs.html#Modules)，其中对我最重要的是第三点：
+在quickjs的官方文档中，有这么一个关于模块的[章节](https://bellard.org/quickjs/quickjs.html#Modules)，其中对我们最重要的是第三点：
 
 > Module names ending with .so are native modules using the QuickJS C API.
 
@@ -22,7 +22,7 @@ $ cd quickjs-2025-04-26
 $ make
 ```
 
-对，就是要编译quickjs，不然就没法开始了🐶。经过大概一分钟左右的时间，quickjs编译完成，在文件夹中会多出来一个`qjs`文件，这就是quickjs的解析器。接下里，我们回到项目目录，并且创建我们的扩展c文件：
+对，就是要编译quickjs，不然就没法开始了🐶。经过大概一分钟左右的时间，quickjs编译完成，在文件夹中会多出来一个`qjs`文件，这就是quickjs的解析器。接下里，我们回到项目目录，创建我们的扩展c文件：
 
 ```shell
 $ cd ..
@@ -79,7 +79,7 @@ hello.so: hello.c
 
 写过`Makefile`的同学们应该都知道，如果要编译一个动态连接库（.so文件），就需要给`gcc`两个参数`-shared -fPIC`，而由于我们用到了quickjs提供的头文件，我们还需要给`gcc`提供include路径`-I./quickjs-2025-04-26`，最后由于我的笔记本是一台mac，所以需要多加一个`-undefined dynamic_lookup`标志。
 
-好，一切就绪，开`make`。一秒钟后，你们项目文件夹下就会多出来一个`hello.so`文件。这时候，我们就可以愉快的打开我们的js文件：
+好，一切就绪，开`make`。一秒钟后，项目文件夹下就会多出来一个`hello.so`文件。这时候，就可以愉快的打开我们的js文件：
 
 ```shell
 $ vim main.js
